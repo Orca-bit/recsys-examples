@@ -1621,7 +1621,7 @@ if __name__ == "__main__":
     test_fused_attn(
         batch_size=128,
         heads=1,
-        heads_rab=1,
+        heads_rab=None,
         max_seq_len_q=1618,
         max_seq_len_k=1618,
         max_context_len=0,
@@ -1630,8 +1630,8 @@ if __name__ == "__main__":
         attn_dim=128,
         hidden_dim=128,
         alpha=1.0,
-        has_rab=True,
-        has_drab=True,
+        has_rab=False,
+        has_drab=False,
         window_size=(-1, 0),
         dtype=torch.bfloat16,
         run_benchmark=None,
@@ -1659,12 +1659,12 @@ if __name__ == "__main__":
     )
 
     b = 4
-    dim = [32, 64, 128, 256]
+    dim = [32, 128, 256]
     num_heads = 4
 
     is_causals = [True]
-    has_rabs = [True]
-    seq_lens = [8192, 4096]
+    has_rabs = [False]
+    seq_lens = [256, 1024, 2048, 4096]
     seq_lens_t = [0, 4096]
     has_drabs = [False]
     dytpes = [torch.bfloat16]
@@ -1696,18 +1696,18 @@ if __name__ == "__main__":
                                         full_batch=True,
                                         is_delta_q=False,
                                     )
-                                    info = [
-                                        "hstu" if run_benchmark == 0 else "torch",
-                                        b,
-                                        seq_len,
-                                        seq_len_t,
-                                        d,
-                                        h,
-                                        has_rab,
-                                        has_drab,
-                                        (-1, 0),
-                                        dtype,
-                                        fwd_time,
-                                        bwd_time,
-                                    ]
-                                    print(",".join([str(v) for v in info]))
+                                    info = {
+                                        "type": "hstu" if run_benchmark == 0 else "torch",
+                                        "batch_size": b,
+                                        "seq_len": seq_len,
+                                        "seq_len_t": seq_len_t,
+                                        "dim": d,
+                                        "heads": h,
+                                        "has_rab": has_rab,
+                                        "has_drab": has_drab,
+                                        "window_size": (-1, 0),
+                                        "dtype": dtype,
+                                        "fwd_time": fwd_time,
+                                        "bwd_time": bwd_time,
+                                    }
+                                    print(", ".join([f"{k}={v}" for k, v in info.items()]))
