@@ -1665,7 +1665,7 @@ if __name__ == "__main__":
     is_causals = [True]
     has_rabs = [False]
     seq_lens = [256, 1024, 2048, 4096]
-    seq_lens_t = [0, 4096]
+    seq_lens_t = [0, 0, 0, 0]
     has_drabs = [False]
     dytpes = [torch.bfloat16]
     for run_benchmark in [0]:
