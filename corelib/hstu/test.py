@@ -1658,8 +1658,8 @@ if __name__ == "__main__":
         is_delta_q=False,
     )
 
-    b = 4
-    dim = [32, 128, 256]
+    b = 32
+    dim = [32, 64, 128, 256]
     num_heads = 4
 
     is_causals = [True]
